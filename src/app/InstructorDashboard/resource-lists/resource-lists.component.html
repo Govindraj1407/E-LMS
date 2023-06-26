@@ -1,1 +1,41 @@
-<p>resource-lists works!</p>
+<h2>
+    All Resources
+</h2>
+<div>
+    <flash-messages></flash-messages>
+</div>
+<div>
+
+<div *ngFor="let user of users">
+    <div class="padding-5">
+        <div class="rect">
+            <div class="cell width-20">
+                {{user.name}}
+            </div>
+            <div class="cell width-20">
+                {{user.email}}
+            </div>
+            <div class="cell width-20">
+                {{user.role}}
+            </div>
+            <div class="cell width-20">
+                {{user.phone}}
+            </div>
+            <div class="cell">
+                <div class="padding-left-15">
+                    <button class="button-style" (click)="onEdit(user)">Edit</button>
+                </div>
+                <div class="padding-left-15">
+                    <button class="delete-button-style" (click)="onDelete(user.userId)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="main-div-button">
+    <div class="padding-20 pull-left">
+      <button class="main-button-style nav-item nav-link-edit" [routerLink]="['/user']">Create User</button>
+    </div>
+  </div>

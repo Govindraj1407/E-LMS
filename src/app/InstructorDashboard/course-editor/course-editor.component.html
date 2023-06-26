@@ -1,1 +1,64 @@
-<p>course-editor works!</p>
+<div class="no-style" style="margin-left: 4px">
+    <flash-messages></flash-messages>          
+    <div class="container">
+        <h1>{{title}}</h1>
+        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="courseName">
+                    Course Name
+                </label>
+                <input class="form-control" id="courseName" type="text" [ngClass]="{'invalid': isSubmitted  && courseForm.controls['courseName'].errors?.required}"  formControlName="courseName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">
+                    Category
+                </label>
+                <select class="form-control" id="category" formControlName="category" 
+                [ngClass]="{'invalid': isSubmitted  && courseForm.controls['category'].errors?.required}">
+                    <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="courseContent">
+                    Course Content
+                </label>
+                <textarea id="courseContent" class="form-control" type="text" formControlName="courseContent"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="subTopics">
+                    Sub Topics
+                </label>
+                <input id="subTopics" class="form-control" type="text" formControlName="subTopics">
+            </div>
+            
+            <div class="form-group">
+                <label for="link">
+                    Link
+                </label>
+                <input id="link" class="form-control" type="text" formControlName="link">
+            </div>
+
+            <div class="form-group">
+                <label for="status">
+                    Status
+                </label>
+                <select class="form-control" id="status" formControlName="status" required [ngClass]="{'invalid': isSubmitted  && courseForm.controls['status'].errors?.required}">
+                    <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dueDate">
+                    Due Date
+                </label>
+                <div>
+                    <ngx-datepicker [formControl]="courseForm.controls['dueDate']" required></ngx-datepicker>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>

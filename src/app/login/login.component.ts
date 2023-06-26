@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { UserService } from 'src/lib/services/user-service';
+import { User } from 'src/lib/models/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,62 +13,44 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class LoginComponent implements OnInit {
   username: string;
-   password: string;
-   data:any={}
+  password: string;
+  userData: User;
 
-    constructor(
-      private authService: AuthService,
-      private router: Router,
-      private flashMessage: FlashMessagesService
-    ) { }
-   
-    ngOnInit() {
-      const user = {
-            username: this.username,
-            password: this.password
-          }
-    this.authService.authenticateUser(user).subscribe(rdata => {
-      this.data = rdata;
-    });
- }
-    onLoginSubmit(){
-      const user = {
-        username: this.username,
-        password: this.password
-      }
-      this.authService.authenticateUser(user).subscribe(rdata => {
-      this.data = rdata;
-      if(this.data.success && this.data.user.admin) {
-        this.authService.storeUserData(this.data.token, this.data.user);
-        console.log(this.data);
-        this.flashMessage.show('You are now logged in as Admin', 
-        {cssClass: 'alert-success', timeout: 3000});
-        setTimeout(() => {
-        this.router.navigate(['']);
-      }
-      , 3000);
-          }
-      else if(this.data.success) {
-          this.authService.storeUserData(this.data.token, this.data.user);
-          console.log(this.data);
-          this.flashMessage.show('You are now logged in as '+this.data.user.role, 
-          {cssClass: 'alert-success', timeout: 3000});
-          setTimeout(() => {
-          this.router.navigate(['']);
-        }
-        , 3000);   
-         } 
-        else {
-        this.flashMessage.show(this.data.statusText, {cssClass: 'alert-danger', timeout: 5000});
-    setTimeout(() => {
-    this.router.navigate(['login']);
-  }
-  , 5000);
-  }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private flashMessage: FlashMessagesService
+  ) { }
+
+  ngOnInit() {
+    const user = {
+      username: this.username,
+      password: this.password
+    }
+    this.userService.verifyUser(this.username, this.password).subscribe(userData => {
+      this.userData = userData;
     });
-    
-     
-    }
- 
-  
+  }
+  onLoginSubmit() {
+    const user = {
+      username: this.username,
+      password: this.password
+    }
+    this.userService.verifyUser(this.username, this.password).subscribe((userData: User) => {
+      if (userData.userId !== null) {
+        sessionStorage.setItem("user-session", JSON.stringify(userData));
+        this.router.navigate(["/dashboard"]);
+      }
+      else{
+        this.password = "";
+      }      
+    }, (error: HttpErrorResponse) => {
+      this.password = "";
+      this.flashMessage.show("Password incorrect", {cssClass: 'alert-danger', timeout: 5000});
+    });
+
+
+  }
+
+
 }

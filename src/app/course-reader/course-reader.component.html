@@ -1,0 +1,47 @@
+<div class="no-style" style="margin-left: 4px">
+    <flash-messages></flash-messages>
+    <div class="container">
+        <h1>{{title}}</h1>
+        <div>
+            <div class="form-group padding-top-20">
+                <label for="courseName" class="padding-right-50">
+                    Course Name:
+                </label>
+                <span>{{course.courseName}}</span>
+            </div>
+
+            <div class="form-group padding-top-20">
+                <label for="category" class="padding-right-50">
+                    Category:
+                </label>
+                <span>{{course.category}}</span>
+            </div>
+            <div class="form-group padding-top-20">
+                <label for="Course Content" class="padding-right-50">
+                    Course Content:
+                </label>
+                <span>{{course.courseContent}}</span>
+            </div>
+
+            <div class="form-group padding-top-20">
+                <label for="Course Content" class="padding-right-50">
+                    Sub Topics:
+                </label>
+                <span>{{course.subTopics}}</span>
+            </div>
+
+            <div class="form-group padding-top-20">
+                <label for="Course Content" class="padding-right-50">
+                    Link:
+                </label>
+                <span>{{course.link}}</span>
+            </div>
+            <iframe [src]="safeSrc" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                allowfullscreen></iframe>
+
+            <div>
+                <button class="btn btn-success" (click)="oncomplete()">Complete</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<h2 *ngIf="!showStudentDashboard">
+  {{title}}
+</h2>
+<div>
+  <flash-messages></flash-messages> 
+</div>
+<div>
+  <div class="title padding-20">
+    <div class="pull-left width-10">Status</div>
+    <div class="pull-left width-50">Title</div>
+    <div class="pull-left width-10">Due Date</div>
+    <div class="pull-left width-10" *ngIf="!isStudent">Students</div>
+    <div class="pull-left width-10" *ngIf="isStudent">Progress %</div>
+  </div>
+  <div *ngFor="let course of courses">
+
+    <div class="padding-5">
+      <div class="rect">
+        <div class="cell status-cell">
+          {{course.status}}
+        </div>
+        <div class="cell name-cell">
+          {{course.courseName}}
+        </div>
+        <div class="cell due-cell">
+          {{course.dueDate | date}}
+        </div>
+        <div class="cell due-cell font-bold" *ngIf="!isStudent">
+          {{course.studentCount}}
+          <i class="fas fa-edit padding-left-5"></i>
+        </div>
+        <div class="cell due-cell" *ngIf="isStudent">
+          {{course.progress}}
+        </div>
+        <div class="cell">
+          <div class="padding-left-15" *ngIf="isStudent">
+            <button class="button-style" (click) = "onOpen(course)">Open</button>
+          </div>
+          <div class="padding-left-15" *ngIf="!isStudent">
+            <button class="button-style" (click) = "onEdit(course)">Edit</button>
+          </div>
+          <!-- <div class="padding-left-15" *ngIf="!isStudent">
+            <button class="button-style">Copy</button>
+          </div> -->
+          <div class="padding-left-15" *ngIf="!isStudent">
+            <button class="delete-button-style" (click) = "onDelete(course.courseId)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main-div-button" *ngIf="!isStudent">
+    <div class="padding-20 pull-left">
+      <button class="main-button-style nav-item nav-link-edit" [routerLink]="['/courseeditor']">Add New Course</button>
+    </div>
+  </div>
+
+</div>
